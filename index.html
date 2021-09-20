@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MEMORY GAME</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./fireworks.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="pop-up-cover"></div>
+    <h1 class="title">
+      <span>m</span><span>e</span><span>m</span><span>o</span><span>r</span
+      ><span>y</span>
+    </h1>
+    <!-- RESULTS  -->
+    <div class="results-container">
+      <div class="time js-timer">
+        <span class="time_title">Time: </span>
+        <span id="m">--</span><span class="chrono_sep">:</span
+        ><span id="s">--</span>
+      </div>
+      <div class="moves">moves: <span id="moves">--</span></div>
+      <div class="reset-settings">
+        <button id="restart-btn" class="js-restart-game">
+          <span class="material-icons"> restart_alt </span>
+        </button>
+        <button id="settings-btn">
+          <span class="material-icons"> settings </span>
+        </button>
+      </div>
+    </div>
+    <!-- SETTINGS -->
+    <div class="settings">
+      <div class="settings-cards">
+        <span>Cards:</span>
+        <input type="radio" id="cards-8" name="setting-card" value="8" />
+        <label for="cards-8">8</label>
+        <!--cards quantity -->
+        <input
+          type="radio"
+          id="cards-16"
+          name="setting-card"
+          value="16"
+          checked
+        />
+        <label for="cards-16">16</label>
+
+        <input type="radio" id="cards-36" name="setting-card" value="36" />
+        <label for="cards-36">36</label>
+
+        <input type="radio" id="cards-48" name="setting-card" value="48" />
+        <label for="cards-48">48</label>
+      </div>
+      <!-- Settings Select (mobile) -->
+      <div class="settings-select">
+        <label for="settings-select-cards">Cards:</label>
+        <select name="" id="settings-select-cards">
+          <option value="8">8</option>
+          <option value="16" selected>16</option>
+          <option value="36">36</option>
+          <option value="48">48</option>
+        </select>
+      </div>
+      <!-- speed -->
+      <div class="settings-speed">
+        <span>Speed:</span>
+        <input type="radio" id="speed-slow" name="setting-speed" value="900" />
+        <label for="speed-slow">slow</label>
+
+        <input
+          type="radio"
+          id="speed-standard"
+          name="setting-speed"
+          value="600"
+          checked
+        />
+        <label for="speed-standard">standard</label>
+
+        <input type="radio" id="speed-fast" name="setting-speed" value="400" />
+        <label for="speed-fast">fast</label>
+
+        <input type="radio" id="speed-none" name="setting-speed" value="0" />
+        <label for="speed-none">none</label>
+      </div>
+
+      <div class="settings-select">
+        <label for="settings-select-speed">Speed:</label>
+        <select name="" id="settings-select-speed">
+          <option value="900">slow</option>
+          <option value="600" selected>standard</option>
+          <option value="400">fast</option>
+          <option value="0">none</option>
+        </select>
+      </div>
+      <!-- show cards? -->
+      <div class="settings-show-cards">
+        <span class="settings-show-cards-title">Show cards?</span>
+        <div class="show-cards-info-container">
+          <img
+            src="images/cloud.svg"
+            alt="additional info"
+            height="136"
+            width="150"
+            class="show-cards-info-cloud"
+          />
+          <div class="show-cards-info-text">
+            <p>Show all cards <br />for at the beginning <br />of the game?</p>
+          </div>
+        </div>
+        <input
+          type="radio"
+          id="show-cards-yes"
+          name="setting-show"
+          value="true"
+        />
+        <label for="show-cards-yes">yes</label>
+
+        <input
+          type="radio"
+          id="show-cards-no"
+          name="setting-show"
+          value="false"
+          checked
+        />
+        <label for="show-cards-no">no</label>
+      </div>
+      <div class="settings-select">
+        <label for="settings-select-show-cards">Show cards?</label>
+        <select name="" id="settings-select-show-cards">
+          <option value="true">yes</option>
+          <option value="false" selected>no</option>
+        </select>
+      </div>
+
+      <div class="settings-confirm">
+        <button class="settings-confirm-btn">play</button>
+        <button class="settings-cancel-btn">cancel</button>
+      </div>
+      <!-- Settings checkbox END -->
+    </div>
+    <!-- CARDS CONTAINER -->
+    <div class="cards-container"></div>
+    <!-- END GAME   -->
+    <div class="congrats-container">
+      <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+      </div>
+      <span class="congrats-text"
+        ><span>c</span><span>o</span><span>n</span><span>g</span><span>r</span
+        ><span>a</span><span>t</span><span>u</span><span>l</span><span>a</span
+        ><span>t</span><span>i</span><span>o</span><span>n</span><span>s</span
+        ><span>!</span></span
+      >
+      <span class="congrats-info-text">You finished the game! </span>
+      <div class="play-again-btn-container">
+        <button class="play-again-btn js-restart-game">play again</button>
+      </div>
+    </div>
+
+    <script src="./settings.js"></script>
+    <script src="./game.js"></script>
+  </body>
+</html>
