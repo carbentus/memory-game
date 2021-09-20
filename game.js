@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   moveCounter: 1,
   startTimestamp: 0,
   timerInterval: 0,
+  isGameActive: false,
 };
 
 const gameElements = {
@@ -30,19 +31,6 @@ let state = {
   ...INITIAL_STATE,
 };
 
-const availablePictures = 24;
-let randomPictures = [];
-let cardsArray = [];
-let cardsChosen = [];
-let cardsChosenId = [];
-
-let gameStatus = '';
-let moveCounter = 0;
-let currentCardsQty = 0;
-let sec = 1;
-let min = 0;
-let idInterval;
-
 // Functions
 // select of random pictures from all available
 const getRandomPictures = () => {
@@ -52,6 +40,7 @@ const getRandomPictures = () => {
     if (randomPictures.indexOf(randomNumber) === -1)
       randomPictures.push(randomNumber);
   }
+
   return [...randomPictures, ...randomPictures].sort(() => 0.5 - Math.random());
 };
 
@@ -61,7 +50,6 @@ const renderTimer = (m, s) => {
     <span id="m">${m}</span><span class="chrono_sep">:</span><span id="s">${s}</span>
   `;
 };
-
 // Time of the game
 const countTime = () => {
   state.startTimestamp = Date.now() / 1000;
@@ -91,7 +79,7 @@ const flipAllCards = () => {
 const handleCardFlipped = () => {
   const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
 
-  // less than two cards selected, do nothing
+  // less than two cards selected, do noting
   if (selectedCards.length < 2) {
     return;
   }
@@ -105,6 +93,7 @@ const handleCardFlipped = () => {
     setTimeout(() => {
       selectedCards.forEach(({ cardEl }) => {
         cardEl.disabled = true;
+        state.isGameActive = false;
       });
     }, settings.speed);
     return;
@@ -116,6 +105,7 @@ const handleCardFlipped = () => {
   });
   setTimeout(() => {
     selectedCards.forEach(({ cardEl }) => flipCard(cardEl));
+    state.isGameActive = false;
   }, settings.speed);
 };
 
@@ -123,10 +113,25 @@ const flipCard = (el) => {
   el.classList.toggle(CLASS_IS_SHOWN);
 };
 
+// HANDLE ACTION ****************
 const handleAction = (e) => {
+  if (state.isGameActive === true) return;
   const clickedCard = state.cardsArray.find(
     ({ cardEl }) => cardEl === e.currentTarget
   );
+
+  // set flag to prevent clicking many cards at the chosen speed time
+  const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
+
+  if (selectedCards.length === 1) {
+    state.isGameActive = true;
+  }
+
+  // prevent clicking the same card
+  if (clickedCard.isSelected === true) {
+    state.isGameActive = false;
+    return;
+  }
   clickedCard.isSelected = !clickedCard.isSelected;
 
   flipCard(clickedCard.cardEl);
@@ -138,34 +143,6 @@ const handleAction = (e) => {
     resetAll();
   }
 };
-// Time of the game
-// const countTime = () => {
-//   if (gameStatus === 'active') {
-//     clearInterval(idInterval);
-//     idInterval = setInterval(function () {
-//       if (sec < 60) {
-//         if (sec < 10) {
-//           sec = `0${sec}`;
-//         }
-//         seconds.innerHTML = sec;
-//         sec++;
-//       } else if (sec === 60) {
-//         min++;
-//         seconds.innerHTML = '00';
-//         if (min < 10) {
-//           min = `0${min}`;
-//         }
-//         minutes.innerHTML = min;
-//         sec = 1;
-//       }
-//     }, 1000);
-//   }
-//   if (gameStatus === 'finished' || gameStatus === '') {
-//     clearInterval(idInterval);
-//   }
-//   console.log(state.cardsArray);
-// };
-
 const resetAll = () => {
   clearInterval(state.timerInterval);
   renderTimer('--', '--');
@@ -247,7 +224,3 @@ const bind = () => {
 
 bind();
 settings.showSettingsModal();
-// showSettingsModal();
-
-console.log(settings.showCards);
-console.log(typeof settings.showCards);

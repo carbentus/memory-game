@@ -17,7 +17,7 @@
 
 :root {
   --max-width: 900px;
-  --border-radius: 5px;
+  --border-radius: 4px;
   --violet: rgb(138, 96, 118);
   --yellow: rgb(245, 210, 31);
   --blue: rgb(67, 130, 166);
@@ -608,10 +608,11 @@ select {
 
 .card-container.is-shown .card {
   background-color: white;
-  border-bottom: 3px solid var(--violet);
-  border-left: 3px solid var(--warm-red);
-  border-right: 3px solid var(--yellow);
-  border-top: 3px solid var(--blue);
+
+  border-bottom: 4px solid var(--violet);
+  border-left: 4px solid var(--warm-red);
+  border-right: 4px solid var(--yellow);
+  border-top: 4px solid var(--blue);
 }
 
 @media screen and (max-width: 950px) and (orientation: portrait) {
