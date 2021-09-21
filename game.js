@@ -16,7 +16,8 @@ const INITIAL_STATE = {
   moveCounter: 1,
   startTimestamp: 0,
   timerInterval: 0,
-  isGameActive: false,
+  isCheckTheMatchActive: false,
+  hasTheGameStarted: false,
 };
 
 const gameElements = {
@@ -93,7 +94,7 @@ const handleCardFlipped = () => {
     setTimeout(() => {
       selectedCards.forEach(({ cardEl }) => {
         cardEl.disabled = true;
-        state.isGameActive = false;
+        state.isCheckTheMatchActive = false;
       });
     }, settings.speed);
     return;
@@ -105,7 +106,7 @@ const handleCardFlipped = () => {
   });
   setTimeout(() => {
     selectedCards.forEach(({ cardEl }) => flipCard(cardEl));
-    state.isGameActive = false;
+    state.isCheckTheMatchActive = false;
   }, settings.speed);
 };
 
@@ -114,22 +115,21 @@ const flipCard = (el) => {
 };
 
 // HANDLE ACTION ****************
-const handleAction = (e) => {
-  if (state.isGameActive === true) return;
+const handleClick = (e) => {
+  if (state.isCheckTheMatchActive === true) return;
   const clickedCard = state.cardsArray.find(
     ({ cardEl }) => cardEl === e.currentTarget
   );
 
   // set flag to prevent clicking many cards at the chosen speed time
   const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
-
   if (selectedCards.length === 1) {
-    state.isGameActive = true;
+    state.isCheckTheMatchActive = true;
   }
 
   // prevent clicking the same card
   if (clickedCard.isSelected === true) {
-    state.isGameActive = false;
+    state.isCheckTheMatchActive = false;
     return;
   }
   clickedCard.isSelected = !clickedCard.isSelected;
@@ -139,8 +139,8 @@ const handleAction = (e) => {
 
   // no cards left, game finished
   if (!state.cardsArray.length) {
-    showCongrats();
-    resetAll();
+    // setTimeout to avoid showing congrats while still checking the last match
+    setTimeout(showCongrats, settings.speed);
   }
 };
 const resetAll = () => {
@@ -181,16 +181,13 @@ const renderBoard = () => {
 
 const bindBoard = () => {
   state.cardsArray.forEach(({ cardEl }) => {
-    cardEl.addEventListener('click', handleAction);
+    cardEl.addEventListener('click', handleClick);
   });
 };
-
 const startNewGame = () => {
   resetAll();
   hideCongrats();
-
   renderBoard();
-  bindBoard();
   countTime();
 
   // Check settings: SHOW cards?
@@ -206,10 +203,14 @@ const startNewGame = () => {
 
     flipAllCards();
     setTimeout(flipAllCards, displayTime);
-  }
+
+    //block clicking the cards while the cards are shown
+    setTimeout(bindBoard, displayTime);
+  } else bindBoard();
 };
 
 const handlePlayBtn = () => {
+  resetAll();
   settings.closeSettingsModal();
   startNewGame();
 };
