@@ -8,6 +8,7 @@ const SELECTOR_MOVES = '#moves';
 const SELECTOR_PLAY_BTN = '.settings-confirm-btn';
 const SELECTOR_RESTART_BTN = '.js-restart-game';
 const SELECTOR_TIMER = '.js-timer';
+const SELECTOR_SETTINGS_BTN = 'settings-btn';
 
 const { gameSettings: settings } = window;
 
@@ -17,7 +18,7 @@ const INITIAL_STATE = {
   startTimestamp: 0,
   timerInterval: 0,
   isCheckTheMatchActive: false,
-  hasTheGameStarted: false,
+  btnsDisabled: false,
 };
 
 const gameElements = {
@@ -26,6 +27,7 @@ const gameElements = {
   movesDisplayEl: document.querySelector(SELECTOR_MOVES),
   playBtnEl: document.querySelector(SELECTOR_PLAY_BTN),
   timerEl: document.querySelector(SELECTOR_TIMER),
+  settingsBtnEl: document.getElementById(SELECTOR_SETTINGS_BTN),
 };
 
 let state = {
@@ -184,6 +186,17 @@ const bindBoard = () => {
     cardEl.addEventListener('click', handleClick);
   });
 };
+
+const SwitchDisableRestartSettingsBtns = () => {
+  state.btnsDisabled = !state.btnsDisabled;
+  document
+    .querySelectorAll(SELECTOR_RESTART_BTN)
+    .forEach((el) => (el.disabled = state.btnsDisabled));
+
+  gameElements.settingsBtnEl.disabled = state.btnsDisabled;
+};
+
+// TODO: przy częstym resecie karty się czesto odwracają. flaga przy restartAll również wraca do false
 const startNewGame = () => {
   resetAll();
   hideCongrats();
@@ -202,10 +215,17 @@ const startNewGame = () => {
     }
 
     flipAllCards();
-    setTimeout(flipAllCards, displayTime);
+    SwitchDisableRestartSettingsBtns();
 
-    //block clicking the cards while the cards are shown
-    setTimeout(bindBoard, displayTime);
+    setTimeout(() => {
+      flipAllCards();
+
+      // Disable Restart and settings btns while cards are shown
+      SwitchDisableRestartSettingsBtns();
+
+      //block clicking the cards while the cards are shown
+      bindBoard();
+    }, displayTime);
   } else bindBoard();
 };
 
