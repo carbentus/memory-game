@@ -17,8 +17,8 @@ const INITIAL_STATE = {
   moveCounter: 1,
   startTimestamp: 0,
   timerInterval: 0,
-  isCheckTheMatchActive: false,
   btnsDisabled: false,
+  lastChoiceId: undefined,
 };
 
 const gameElements = {
@@ -79,38 +79,69 @@ const flipAllCards = () => {
   state.cardsArray.forEach(({ cardEl }) => flipCard(cardEl));
 };
 
+const disableMatchedCards = (selectedCards) => {
+  selectedCards.forEach(({ cardEl }) => {
+    cardEl.disabled = true;
+  });
+};
+
+const handleMatchedCards = (selectedCards) => {
+  if (selectedCards[0].pictureNumber === selectedCards[1].pictureNumber) {
+    state.cardsArray = state.cardsArray.filter(({ isSelected }) => !isSelected);
+
+    if (settings.speed !== '0') {
+      setTimeout(function () {
+        disableMatchedCards(selectedCards);
+      }, settings.speed);
+    } else {
+      setTimeout(function () {
+        disableMatchedCards(selectedCards);
+      }, 600);
+    }
+
+    return;
+  }
+};
 const handleCardFlipped = () => {
   const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
+  console.log(selectedCards);
 
   // less than two cards selected, do noting
   if (selectedCards.length < 2) {
     return;
   }
-
   // increment number of pairs shown
   incrementMoves();
 
-  // match detected - remove cards
-  if (selectedCards[0].pictureNumber === selectedCards[1].pictureNumber) {
-    state.cardsArray = state.cardsArray.filter(({ isSelected }) => !isSelected);
-    setTimeout(() => {
-      selectedCards.forEach(({ cardEl }) => {
-        cardEl.disabled = true;
-        state.isCheckTheMatchActive = false;
-      });
-    }, settings.speed);
-    return;
+  // match
+  if (selectedCards.length === 2) {
+    handleMatchedCards(selectedCards);
   }
 
-  // no match - flip cards back to blank
-  selectedCards.forEach((card) => {
-    card.isSelected = false;
-  });
-  setTimeout(() => {
-    selectedCards.forEach(({ cardEl }) => flipCard(cardEl));
-    state.isCheckTheMatchActive = false;
-  }, settings.speed);
+  // no match: back to blank
+  if (settings.speed !== '0') {
+    // no match - back to blank
+    selectedCards.forEach((card) => {
+      card.isSelected = false;
+    });
+    setTimeout(() => {
+      selectedCards.forEach(({ cardEl }) => flipCard(cardEl));
+    }, settings.speed);
+  } else {
+    // no match for NONE speed
+    if (selectedCards.length < 3) return;
+    const firstTwoChosenCards = selectedCards.filter((card) => {
+      return card.arrayId !== state.lastChoiceId;
+    });
+    firstTwoChosenCards.forEach((card) => {
+      card.isSelected = false;
+    });
+
+    firstTwoChosenCards.forEach(({ cardEl }) => flipCard(cardEl));
+  }
 };
+
+// ---------------------
 
 const flipCard = (el) => {
   el.classList.toggle(CLASS_IS_SHOWN);
@@ -118,22 +149,19 @@ const flipCard = (el) => {
 
 // HANDLE ACTION ****************
 const handleClick = (e) => {
-  if (state.isCheckTheMatchActive === true) return;
   const clickedCard = state.cardsArray.find(
     ({ cardEl }) => cardEl === e.currentTarget
   );
 
-  // set flag to prevent clicking many cards at the chosen speed time
-  const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
-  if (selectedCards.length === 1) {
-    state.isCheckTheMatchActive = true;
-  }
-
-  // prevent clicking the same card
-  if (clickedCard.isSelected === true) {
-    state.isCheckTheMatchActive = false;
-    return;
-  }
+  // prevent open and close the same card (first)
+  if (clickedCard.isSelected === true) return;
+  state.lastChoiceId = clickedCard.arrayId;
+  console.log(
+    'last choice id: ' +
+      state.lastChoiceId +
+      ' pic:' +
+      clickedCard.pictureNumber
+  );
   clickedCard.isSelected = !clickedCard.isSelected;
 
   flipCard(clickedCard.cardEl);
@@ -174,11 +202,13 @@ const renderBoard = () => {
     'data-cards-qty',
     `x${settings.cardsQty}`
   );
-  state.cardsArray = getRandomPictures().map((pictureNumber) => ({
+  state.cardsArray = getRandomPictures().map((pictureNumber, index) => ({
     cardEl: renderCardEl(pictureNumber),
     pictureNumber,
     isSelected: false,
+    arrayId: index,
   }));
+  console.log(state.cardsArray);
 };
 
 const bindBoard = () => {
@@ -196,7 +226,6 @@ const SwitchDisableRestartSettingsBtns = () => {
   gameElements.settingsBtnEl.disabled = state.btnsDisabled;
 };
 
-// TODO: przy częstym resecie karty się czesto odwracają. flaga przy restartAll również wraca do false
 const startNewGame = () => {
   resetAll();
   hideCongrats();

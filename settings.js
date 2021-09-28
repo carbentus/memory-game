@@ -22,15 +22,18 @@
     btnEl: document.getElementById('settings-btn'),
     cancelBtnEl: document.querySelector('.settings-cancel-btn'),
     modalEl: document.querySelector('.settings'),
+    overlayEl: document.querySelector('.settings-overlay'),
   };
 
   // SETTINGS
   const showSettingsModal = () => {
     settingsElements.modalEl.classList.add('is-shown');
+    settingsElements.overlayEl.classList.add('is-shown');
   };
 
   const closeSettingsModal = () => {
     settingsElements.modalEl.classList.remove('is-shown');
+    settingsElements.overlayEl.classList.remove('is-shown');
   };
 
   const onRadioChange = (ev) => {

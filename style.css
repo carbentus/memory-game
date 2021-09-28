@@ -730,7 +730,8 @@ select {
   font-size: 15px;
   text-align: center;
 }
-.congrats-container.is-shown {
+.congrats-container.is-shown,
+.settings-overlay.is-shown {
   background-color: rgba(15, 15, 15, 0.9);
   display: block;
   height: 100%;
@@ -738,6 +739,7 @@ select {
   position: absolute;
   top: 0;
   width: 100%;
+  z-index: 2;
 }
 .congrats-container > * {
   display: block;
