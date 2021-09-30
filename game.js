@@ -1,6 +1,7 @@
 // BUG przy szybkim klikaniu poprzednie karty nie odwracają sie. założyć opóźnienie?
 const AVAILABLE_PICTURES = 24;
 const CLASS_IS_SHOWN = 'is-shown';
+const CLASS_MODAL_IS_SHOWN = 'modal-is-shown';
 const PATH_PICTURE_BLANK = 'images/blank.svg';
 const SELECTOR_CARDS_CONTAINER = '.cards-container';
 const SELECTOR_CONGRATS = '.congrats-container';
@@ -28,6 +29,7 @@ const gameElements = {
   playBtnEl: document.querySelector(SELECTOR_PLAY_BTN),
   timerEl: document.querySelector(SELECTOR_TIMER),
   settingsBtnEl: document.getElementById(SELECTOR_SETTINGS_BTN),
+  body: document.body,
 };
 
 let state = {
@@ -69,10 +71,12 @@ const incrementMoves = () => {
 
 const showCongrats = () => {
   gameElements.congratsEl.classList.add(CLASS_IS_SHOWN);
+  gameElements.body.classList.add(CLASS_MODAL_IS_SHOWN);
 };
 
 const hideCongrats = () => {
   gameElements.congratsEl.classList.remove(CLASS_IS_SHOWN);
+  gameElements.body.classList.remove(CLASS_MODAL_IS_SHOWN);
 };
 
 const flipAllCards = () => {

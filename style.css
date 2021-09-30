@@ -39,8 +39,10 @@ body {
   max-height: 100vh;
   max-width: var(--max-width);
   width: 90%;
-  /* display: flex;
-  flex-wrap: wrap; */
+}
+
+body.modal-is-shown {
+  overflow: hidden;
 }
 
 button {
@@ -185,7 +187,6 @@ button {
 @media screen and (max-height: 900px) {
   .results-container {
     font-size: 1rem;
-    margin: 0 0 10px 0;
     padding: 0 0;
   }
 
@@ -203,10 +204,10 @@ button {
 @media screen and (max-width: 400px) {
   .results-container {
     font-size: 0.7rem;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   .results-container .reset-settings span {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -515,7 +516,6 @@ select {
   /* justify-items: stretch; */
   /* justify-content: stretch; */
   margin: 0 auto;
-
   max-width: 750px;
 }
 
@@ -595,10 +595,58 @@ select {
 
 @media screen and (max-width: 600px) and (orientation: portrait) {
   body {
+    width: 96%;
     max-width: 500px;
   }
   .cards-container[data-cards-qty='x48'] {
     grid-template-columns: repeat(6, 1fr);
+  }
+
+  .cards-container[data-cards-qty='x36'] .card,
+  .cards-container[data-cards-qty='x48'] .card {
+    padding: 4%;
+  }
+
+  .cards-container[data-cards-qty='x36'] .card-container.is-shown .card,
+  .cards-container[data-cards-qty='x48'] .card-container.is-shown .card {
+    border-bottom: 2px solid var(--violet);
+    border-left: 2px solid var(--warm-red);
+    border-right: 2px solid var(--yellow);
+    border-top: 2px solid var(--blue);
+  }
+}
+
+@media screen and (max-width: 1400px) and (orientation: landscape) and (min-aspect-ratio: 7/5) {
+  .cards-container {
+    margin-top: 24px;
+  }
+  .cards-container[data-cards-qty='x48'] {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .cards-container[data-cards-qty='x36'] {
+    grid-template-columns: repeat(9, 1fr);
+  }
+}
+
+@media screen and (max-width: 1024px) and (orientation: landscape) and (min-aspect-ratio: 6/5) {
+  .title {
+    height: auto;
+  }
+  .results-container {
+    font-size: 0.8rem;
+  }
+  .cards-container {
+    margin-top: 16px;
+  }
+
+  .cards-container[data-cards-qty='x16'] {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .cards-container[data-cards-qty='x8'] {
+    max-width: 80%;
+    margin-top: 8px;
   }
 }
 
@@ -614,7 +662,7 @@ select {
   display: block;
   height: 100%;
   left: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 2;
