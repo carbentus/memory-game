@@ -104,7 +104,6 @@ const handleMatchedCards = (selectedCards) => {
 };
 const handleCardFlipped = () => {
   const selectedCards = state.cardsArray.filter(({ isSelected }) => isSelected);
-  console.log(selectedCards);
 
   // less than two cards selected, do noting
   if (selectedCards.length < 2) {
@@ -156,12 +155,6 @@ const handleClick = (e) => {
   // prevent open and close the same card (first)
   if (clickedCard.isSelected === true) return;
   state.lastChoiceId = clickedCard.arrayId;
-  console.log(
-    'last choice id: ' +
-      state.lastChoiceId +
-      ' pic:' +
-      clickedCard.pictureNumber
-  );
   clickedCard.isSelected = !clickedCard.isSelected;
 
   flipCard(clickedCard.cardEl);
@@ -208,7 +201,6 @@ const renderBoard = () => {
     isSelected: false,
     arrayId: index,
   }));
-  console.log(state.cardsArray);
 };
 
 const bindBoard = () => {
