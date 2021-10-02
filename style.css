@@ -1,20 +1,5 @@
-/* TODO style dla różnej ilości */
-/* TODO background po całości, karty blank w kropki */
-/* TODO @media */
-
 /*   font-family: 'Otomanopee One', sans-serif;
  */
-
-/* TODO: 
- body {
-    font-size: 15px;
-    line-height: 140%;
-    font-family: "Open Sans", sans-serif;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    cursor: url("../img/cursor.png"), auto;
-} */
-
 :root {
   --max-width: 1000px;
   --border-radius: 4px;
@@ -63,7 +48,6 @@ button {
   text-shadow: 0px 1px 1px gray;
   text-transform: uppercase;
   width: 100%;
-  /* letter-spacing: 2px; */
 }
 .title span:nth-child(1),
 .title span:nth-child(5),
@@ -120,9 +104,9 @@ button {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
-  padding: 0 0 8px;
-  max-width: 750px;
   margin: 0 auto;
+  max-width: 750px;
+  padding: 0 0 8px;
 }
 
 .results-container #restart-btn {
@@ -145,7 +129,6 @@ button {
 #moves {
   background-color: var(--blue);
   border-radius: var(--border-radius);
-  /* border: 2px solid black; */
   color: white;
   display: inline-block;
   margin: 0 2px;
@@ -225,7 +208,7 @@ button {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
+  width: 85%;
   z-index: 2;
 }
 .pop-up-cover.is-shown {
@@ -298,8 +281,6 @@ button {
 
 .settings input[type='radio'] + label {
   background-color: white;
-  /* border-bottom: 2px solid var(--yellow); */
-  /* border: 2px solid var(--yellow); */
   background-color: rgba(245, 210, 31, 0.2);
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -320,7 +301,6 @@ button {
   height: 60px;
   text-transform: uppercase;
   width: 200px;
-  /* background-color: rgba(245, 210, 31, 0.2); */
 }
 .settings .settings-confirm-btn,
 .congrats-container .play-again-btn {
@@ -513,8 +493,6 @@ select {
 
 .cards-container {
   display: grid;
-  /* justify-items: stretch; */
-  /* justify-content: stretch; */
   margin: 0 auto;
   max-width: 750px;
 }
@@ -545,14 +523,13 @@ select {
   margin: 0;
   padding-top: 100%;
   position: relative;
-  /* Czy te 2x100% potrzebne? */
   width: 100%;
 }
 
 .cards-container .card-container:disabled {
+  cursor: default;
   opacity: 0;
   visibility: hidden;
-  cursor: default;
 }
 
 .cards-container .card {
@@ -595,8 +572,8 @@ select {
 
 @media screen and (max-width: 600px) and (orientation: portrait) {
   body {
-    width: 96%;
     max-width: 500px;
+    width: 96%;
   }
   .cards-container[data-cards-qty='x48'] {
     grid-template-columns: repeat(6, 1fr);
@@ -621,7 +598,7 @@ select {
     margin-top: 24px;
   }
   .cards-container[data-cards-qty='x48'] {
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(8, 1fr);
   }
 
   .cards-container[data-cards-qty='x36'] {
@@ -645,8 +622,8 @@ select {
   }
 
   .cards-container[data-cards-qty='x8'] {
-    max-width: 80%;
     margin-top: 8px;
+    max-width: 80%;
   }
 }
 
