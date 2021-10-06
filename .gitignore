@@ -1,2 +1,3 @@
+.gitignore
 game_before.js
-style_before.js
+style_before.css
