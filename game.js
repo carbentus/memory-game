@@ -1,4 +1,3 @@
-// BUG przy szybkim klikaniu poprzednie karty nie odwracają sie. założyć opóźnienie?
 const AVAILABLE_PICTURES = 24;
 const CLASS_IS_SHOWN = 'is-shown';
 const CLASS_MODAL_IS_SHOWN = 'modal-is-shown';
