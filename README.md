@@ -15,4 +15,4 @@ https://dalilehk.github.io/memory-game/
 
 ## Preview on different devices
 
-![alt text](https://github.com/dalilehk/ToDoApp/blob/main/memory_preview.jpg?raw=true)
+![alt text](https://github.com/dalilehk/memory-game/blob/main/memory_preview.jpg?raw=true)
